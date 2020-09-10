@@ -3,7 +3,6 @@ package com.cj.arcface
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Outline
@@ -20,9 +19,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.cj.arcface.util.toBitmap
 import io.reactivex.Observable
 import io.reactivex.Observer
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -200,17 +199,12 @@ class CameraActivity : AppCompatActivity() {
                 val array = arrayOfNulls<FaceDetector.Face>(1)
                 val faces = faceDetector.findFaces(bitmap1, array)
                 if (faces > 0) {
-                    try {
-                        Log.e(TAG, "检测到脸")
-                        val fos = FileOutputStream(file.path)
-                        createBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
-                        fos.flush()
-                        fos.close()
-                        emitter.onNext(file)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        emitter.onError(Throwable(e.printStackTrace().toString()))
-                    }
+                    Log.e(TAG, "检测到脸")
+                    val fos = FileOutputStream(file.path)
+                    createBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                    fos.flush()
+                    fos.close()
+                    emitter.onNext(file)
                 } else {
                     Log.e(TAG, "未检测到脸")
                     emitter.onError(Throwable("未检测到脸"))

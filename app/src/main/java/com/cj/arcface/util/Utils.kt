@@ -1,4 +1,4 @@
-package com.cj.arcface
+package com.cj.arcface.util
 
 import android.app.Activity
 import android.content.Context
